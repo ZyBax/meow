@@ -5,20 +5,68 @@
       <meta charset="UTF-8">
   <meta name="description" content="the land of meows with a marquee tag with a meow and even a ROYALTY FREE CAT IMAGE :O">
     <style>
+          .image-container {
+            position: relative;
+            display: inline-block;
+        }
         .responsive-img {
             max-width: 50%;
             height: auto;
+        }
+        .blink {
+                animation: blinker 2s linear infinite;
+                color: pink;
+                font-family: sans-serif;
+            }
+
+            @keyframes blinker {
+                50% {
+                    opacity: 0;
+                }
+            }
+            .tooltip {
+            visibility: hidden;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .image-container:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%; /* Arrow at the bottom of the tooltip */
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: black transparent transparent transparent;
         }
     </style>
     <link rel="icon" type="image/x-icon" href="/images/favicon-32.png">
 </head>
 <body>
-<marquee>
-meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow
+<marquee class="blink">
+meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow meow
 </marquee>
 <h1>
 meow
 </h1>
-<img src="cat.jpg" alt="a cat" class="responsive-img">
+<div class="image-container">
+    <img src="cat.jpg" alt="a cat" class="responsive-img">
+    <div class="tooltip">Image by <a href="https://pixabay.com/users/patmot-27555299/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7211080">Patmot</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=7211080">Pixabay</a></div>
+</div>
 </body>
 </html>
