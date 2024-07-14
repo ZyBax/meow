@@ -3,3 +3,5 @@ https://meow.autos/index.html
 https://meow.autos/silly.html
 https://meow.autos/notlikeus
 https://meow.autos/files.html
+https://meow.autos/freebird.html
+https://meow.autos/joe.html
