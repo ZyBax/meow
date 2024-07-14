@@ -1,14 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
     const starContainer = document.getElementById('star-container');
+    const content = document.getElementById('content');
     const width = window.innerWidth;
     const height = window.innerHeight;
     const starSize = 2;
-    const spacing = starSize * 2; // Ensure stars are not next to each other
-    const numStars = Math.floor((width * height) / (spacing * spacing) * 0.2); // Adjust density as needed
+    const spacing = starSize * 2;
+    const margin = 20;
+    const numStars = Math.floor((width * height) / (spacing * spacing) * 0.2);
 
     const placedStars = [];
 
+    const contentRect = content.getBoundingClientRect();
+    const contentBounds = {
+        top: contentRect.top - margin,
+        bottom: contentRect.bottom + margin,
+        left: contentRect.left - margin,
+        right: contentRect.right + margin
+    };
+
     function isValidPosition(x, y) {
+        if (
+            x > contentBounds.left && x < contentBounds.right &&
+            y > contentBounds.top && y < contentBounds.bottom
+        ) {
+            return false;
+        }
+
         for (let i = 0; i < placedStars.length; i++) {
             const [px, py] = placedStars[i];
             if (Math.abs(px - x) < spacing && Math.abs(py - y) < spacing) {
