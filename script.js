@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const height = window.innerHeight;
     const starSize = 2;
     const spacing = starSize * 2;
-    const margin = 20;
+    const margin = 50;
     const numStars = Math.floor((width * height) / (spacing * spacing) * 0.2);
 
     const placedStars = [];
