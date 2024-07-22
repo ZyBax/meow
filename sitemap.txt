@@ -7,3 +7,4 @@ https://meow.autos/test.html
 https://meow.autos/joe.html
 https://meow.autos/freebird.html
 https://meow.autos/organic.html
+https://meow.autos/ads.html
