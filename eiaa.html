@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EIAA Web App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="apple-touch-icon" href="eiaa-pwa.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="EIAA App">
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+        }
+        .header img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        .header h1 {
+            font-weight: bold;
+            font-size: 32px;
+        }
+        .welcome {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        .balance-section {
+            display: flex;
+            justify-content: space-around;
+            background-color: #4da3ff;
+            border-radius: 10px;
+            padding: 20px;
+            color: white;
+            margin: 20px 0;
+        }
+        .balance-box {
+            text-align: center;
+        }
+        .balance-box p {
+            margin: 5px 0;
+        }
+        .claim-section {
+            background-color: #c8e2ff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: black;
+            margin: 20px 0;
+        }
+        .claim-section button {
+            padding: 10px 20px;
+            background-color: #b3d9ff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #4da3ff;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            color: white;
+        }
+        .nav img {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <img src="noun-dog-7221009.svg" alt="EIAA Logo">
+            <h1>EIAA</h1>
+        </div>
+
+        <p class="welcome">Welcome, <strong>Jimmy</strong></p>
+
+        <div class="balance-section">
+            <div class="balance-box">
+                <p>Balance</p>
+                <h2>$60.24</h2>
+                <p>Savings: $50.24</p>
+                <p>Checking: $10.00</p>
+            </div>
+            <div class="balance-box">
+                <p>Credit</p>
+                <h2>$120.48</h2>
+                <p>APR: 15% for the next <strong>12 months</strong></p>
+            </div>
+        </div>
+
+        <div class="claim-section">
+            <p>Thanks for activating your <strong>Personalized Credit Card!</strong></p>
+            <p>Here’s <strong>500 points</strong> to celebrate!</p>
+            <button>Claim</button>
+        </div>
+    </div>
+
+    <div class="nav">
+        <img src="home.png" alt="Home">
+        <img src="piggy-bank.png" alt="Savings">
+        <img src="credit.png" alt="Credit">
+        <img src="settings.png" alt="Settings">
+    </div>
+</body>
+</html>
