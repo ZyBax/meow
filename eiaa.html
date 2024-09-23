@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EIAA Web App</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="apple-touch-icon" href="eiaa-pwa.png">
+    <link rel="apple-touch-icon" href="Dog by Kim Naces from Noun Project.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="EIAA App">
@@ -83,6 +83,15 @@
             height: 30px;
         }
     </style>
+    <script>
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/sw.js').then(function(registration) {
+            console.log('Service Worker registered with scope:', registration.scope);
+          }).catch(function(error) {
+            console.log('Service Worker registration failed:', error);
+          });
+        }
+      </script>      
 </head>
 <body>
 
