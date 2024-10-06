@@ -1,4 +1,4 @@
-const loggingUrl = 'https://script.google.com/macros/s/AKfycbyrir4q5puAMvoXb2RxRymzPQrK45DJwfGuFiO3yrolDIl498u0y46zBiZJWMM4kpLddw/exec';
+const loggingUrl = 'https://script.google.com/macros/s/AKfycbwkbu75xtpO0p_n2xBJIcjIEl2ykLHFGZebTetGH7MuEatFBnZRKO7IT83ddc39AB9NBg/exec';
 
 window.onload = function() {
     fetch(loggingUrl)
