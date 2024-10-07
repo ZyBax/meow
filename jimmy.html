@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="script.js">
+      <script> window.onload = function() {
+    const pageUrl = window.location.href;
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+
+                logData(pageUrl, latitude, longitude);
+            },
+            (error) => {
+                console.error('Error getting location:', error);
+                logData(pageUrl, null, null);
+            }
+        );
+    } else {
+        console.error('Geolocation is not supported by this browser.');
+        logData(pageUrl, null, null);
+    }
+};
+
+function logData(pageUrl, latitude, longitude) {
+    const loggingUrl = 'https://script.google.com/macros/s/AKfycbwiWM4vi2i0WpYqpRF3IbB1r3kW-etD_n7K-orC_envfSFF4oXKdLg_oDDlPW8yWPJESA/exec';
+
+    const data = {
+        pageUrl: pageUrl,
+        latitude: latitude,
+        longitude: longitude,
+        timestamp: new Date().toISOString()
+    };
+
+    fetch(loggingUrl, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            console.error('Error logging data:', response.statusText);
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+    });
+}
+    </script>
+  </head>
+    <body>
+      <h1> <strong>Thank you for answering Jimmy!</strong></h1>
+      <h2>If you are OK with it, then please accept location. If a popup asks you for precise or not, then you can choose not precise.</h2>
+      <img src="jimmy.jpg">
+    </body>
+</html>
