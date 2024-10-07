@@ -1,58 +1,49 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="script.js">
-      <script> window.onload = function() {
-    const pageUrl = window.location.href;
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const { latitude, longitude } = position.coords;
+    <title>Michael's Location Page</title>
 
-                logData(pageUrl, latitude, longitude);
+    <!-- Include external script.js (shared across all pages) -->
+    <script type="text/javascript" data-cmp-ab="1" src="https://cdn.consentmanager.net/delivery/autoblocking/e7168f9ce18a3.js" data-cmp-host="c.delivery.consentmanager.net" data-cmp-cdn="cdn.consentmanager.net" data-cmp-codesrc="16"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3MLX5P0FLD"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-3MLX5P0FLD');
+    </script>
+
+    <!-- Inline script specific to this page -->
+    <script>
+      window.onload = function() {
+        const pageUrl = window.location.href;
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              const { latitude, longitude } = position.coords;
+              // Calling logData from script.js (shared code)
+              logData(pageUrl, latitude, longitude);
             },
             (error) => {
-                console.error('Error getting location:', error);
-                logData(pageUrl, null, null);
+              console.error('Error getting location:', error);
+              // Call logData with null coordinates in case of error
+              logData(pageUrl, null, null);
             }
-        );
-    } else {
-        console.error('Geolocation is not supported by this browser.');
-        logData(pageUrl, null, null);
-    }
-};
-
-function logData(pageUrl, latitude, longitude) {
-    const loggingUrl = 'https://script.google.com/macros/s/AKfycbwiWM4vi2i0WpYqpRF3IbB1r3kW-etD_n7K-orC_envfSFF4oXKdLg_oDDlPW8yWPJESA/exec';
-
-    const data = {
-        pageUrl: pageUrl,
-        latitude: latitude,
-        longitude: longitude,
-        timestamp: new Date().toISOString()
-    };
-
-    fetch(loggingUrl, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json'
+          );
+        } else {
+          console.error('Geolocation is not supported by this browser.');
+          logData(pageUrl, null, null);
         }
-    })
-    .then(response => {
-        if (!response.ok) {
-            console.error('Error logging data:', response.statusText);
-        }
-    })
-    .catch(error => {
-        console.error('Fetch error:', error);
-    });
-}
+      };
     </script>
+
   </head>
-    <body>
-      <h1> <strong>Thank you for answering Michael!</strong></h1>
-      <h2>If you are OK with it, then please accept location. If a popup asks you for precise or not, then you can choose not precise.</h2>
-      <img src="michael.jpg">
-    </body>
+  <body>
+    <h1><strong>Thank you for answering Michael!</strong></h1>
+    <h2>If you are OK with it, then please accept location. If a popup asks you for precise or not, then you can choose not precise.</h2>
+    <img src="michael.jpg" alt="Michael's Image">
+  </body>
 </html>
