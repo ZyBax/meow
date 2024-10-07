@@ -1,13 +1,8 @@
-const loggingUrl = 'https://meowsers.meowautos.workers.dev';
+<!-- Google tag (gtag.js) -->
+    
+async src="https://www.googletagmanager.com/gtag/js?id=G-3MLX5P0FLD"
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-window.onload = function() {
-    fetch(loggingUrl)
-        .then(response => {
-            if (!response.ok) {
-                console.error('Error logging visit:', response.statusText);
-            }
-        })
-        .catch(error => {
-            console.error('Fetch error:', error);
-        });
-};
+  gtag('config', 'G-3MLX5P0FLD');
