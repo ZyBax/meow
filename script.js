@@ -1,12 +1,26 @@
-<script type="text/javascript" data-cmp-ab="1" src="https://cdn.consentmanager.net/delivery/autoblocking/e7168f9ce18a3.js" data-cmp-host="c.delivery.consentmanager.net" data-cmp-cdn="cdn.consentmanager.net" data-cmp-codesrc="16"></script>
+(function() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.setAttribute('data-cmp-ab', '1');
+    script.src = 'https://cdn.consentmanager.net/delivery/autoblocking/e7168f9ce18a3.js';
+    script.setAttribute('data-cmp-host', 'c.delivery.consentmanager.net');
+    script.setAttribute('data-cmp-cdn', 'cdn.consentmanager.net');
+    script.setAttribute('data-cmp-codesrc', '16');
+    document.head.appendChild(script);
+})();
 
+(function() {
+    var gtagScript = document.createElement('script');
+    gtagScript.async = true;
+    gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-3MLX5P0FLD';
+    document.head.appendChild(gtagScript);
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3MLX5P0FLD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    window.gtag = gtag;
 
-  gtag('config', 'G-3MLX5P0FLD');
-</script>
+    gtag('js', new Date());
+    gtag('config', 'G-3MLX5P0FLD');
+})();
