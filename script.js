@@ -1,3 +1,11 @@
+var meta = document.createElement('meta');
+meta.name = "viewport";
+meta.content = "width=device-width, initial-scale=1";
+document.getElementsByTagName('head')[0].appendChild(meta);
+
+var script = document.createElement('script');
+script.src = "https://example.com/your-script.js";
+document.getElementsByTagName('head')[0].appendChild(script);
 (function() {
     var script = document.createElement('script');
     script.type = 'text/javascript';
