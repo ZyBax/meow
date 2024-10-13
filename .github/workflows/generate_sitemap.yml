@@ -1,0 +1,35 @@
+name: Generate Sitemap
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Generate sitemap
+      run: |
+        BASE_URL="https://meow.autos"
+        echo '<?xml version="1.0" encoding="UTF-8"?>' > sitemap.xml
+        echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
+        find . -name '*.html' ! -path './script.js' ! -path './some-other-files/*' | while read file; do
+          URL="${BASE_URL}${file#./}"
+          echo "  <url>" >> sitemap.xml
+          echo "    <loc>${URL}</loc>" >> sitemap.xml
+          echo "  </url>" >> sitemap.xml
+        done
+        echo '</urlset>' >> sitemap.xml
+
+    - name: Commit and push sitemap
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add sitemap.xml
+        git commit -m "Updated sitemap"
+        git push
