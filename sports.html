@@ -26,15 +26,22 @@
     header img {
       height: 50px;
     }
-    marquee {
+    .scrolling-text {
       font-size: 1.2em;
       font-weight: bold;
       color: #00338d;
       background-color: #e8e8e8;
       padding: 10px 0;
-      animation: marquee-speed 8s linear infinite;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
     }
-    @keyframes marquee-speed {
+    .scrolling-text span {
+      display: inline-block;
+      position: absolute;
+      animation: scroll-left 10s linear infinite;
+    }
+    @keyframes scroll-left {
       from { transform: translateX(100%); }
       to { transform: translateX(-100%); }
     }
@@ -77,7 +84,9 @@
   <h1>Sports Predictor</h1>
 </header>
 
-<marquee behavior="scroll" direction="left">LAST PLAY: /BUF 76.1% /BAL 13 - BUF 21 /2nd & 4 at BAL 26 /4:45 - 3rd /D. Henry right guard to BAL 29 for a gain of 3 yards (E. Oliver).</marquee>
+<div class="scrolling-text">
+  <span>LAST PLAY: /BUF 76.1% /BAL 13 - BUF 21 /2nd & 4 at BAL 26 /4:45 - 3rd /D. Henry right guard to BAL 29 for a gain of 3 yards (E. Oliver).</span>
+</div>
 
 <div class="team-logos">
   <img src="https://www.pngall.com/wp-content/uploads/13/Bills-Logo-PNG-Images.png" alt="Buffalo Bills Logo">
@@ -113,6 +122,7 @@
 
 <footer>
    Stay tuned for updates! Current Date and Time is Sunday, January,19th
+   <br><a href="https://webneko.net">Neko</a>
 </footer>
 
 <script>
