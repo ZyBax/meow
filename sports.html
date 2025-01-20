@@ -99,15 +99,16 @@
       position: fixed;
       width: 100px;
       height: 100px;
-      animation: bounce 7s linear infinite;
+      animation: x 7s linear infinite alternate, y 5s linear infinite alternate;
       z-index: 999;
     }
-    @keyframes bounce {
-      0% { transform: translate(0, 0); }
-      25% { transform: translate(calc(100vw - 100px), 0); }
-      50% { transform: translate(calc(100vw - 100px), calc(100vh - 100px)); }
-      75% { transform: translate(0, calc(100vh - 100px)); }
-      100% { transform: translate(0, 0); }
+    @keyframes x {
+      0% { left: 0; }
+      100% { left: calc(100% - 100px); }
+    }
+    @keyframes y {
+      0% { top: 0; }
+      100% { top: calc(100% - 100px); }
     }
     .celebration-overlay {
       position: fixed;
