@@ -3,16 +3,24 @@ name: Generate Sitemap
 on:
   push:
     branches:
-      - main  # Adjust this to your default branch if necessary
+      - main
+    paths-ignore:
+      - 'sitemap.xml'
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      BASE_URL: https://meow.autos
+
     steps:
       - name: Checkout repository content
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Generate sitemap.xml
         run: |
@@ -20,9 +28,7 @@ jobs:
           echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> sitemap.xml
           for file in $(find . -name "*.html"); do
             file=${file:2}  # Remove the "./" prefix
-            if [[ "$file" != "script.js" && "$file" != "README.md" ]]; then  # Exclude unwanted files
-              echo "  <url><loc>https://meow.autos/$file</loc></url>" >> sitemap.xml
-            fi
+            echo "  <url><loc>${BASE_URL}/$file</loc></url>" >> sitemap.xml
           done
           echo '</urlset>' >> sitemap.xml
 
