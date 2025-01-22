@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sports Predictor - Bills Win!</title>
+  <title>Sports Predictor - Bills and Eagles are favored!</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Helvetica:wght@400;700&display=swap">
   <script>NekoType = "fancy";</script>
   <script src="https://webneko.net/n20171213.js"></script>
@@ -128,7 +128,7 @@
 </header>
 
 <div class="scrolling-text">
-  <span>FINAL: /BUF 100% /BAL 25 - BUF 27 /0:00 - 4th /GAME OVER - Bills advance to AFC Championship!</span>
+  <span>FINAL: /BUF 100% /BAL 25 - BUF 27 /0:00 - 4th /GAME OVER - Bills advance to AFC Championship! Bills & Eagles are favored to win from sources</span>
 </div>
 
 <div class="team-logos">
@@ -139,25 +139,32 @@
 <h1>The Meow.Autos <em><strong>SUPER RAD</strong></em> Sports Predictor</h1>
 
 <div class="content">
-  <h2>Final Score:</h2>
+  <h2>Final Predictions:</h2>
   
-  <h3>Buffalo Bills defeat Baltimore Ravens</h3>
-  
+  <h3>Buffalo Bills defeat Kansas City Chiefs and advance to the Super Bowl (Sources give an around 55% chance for Bills to win. Personal opinion: the Chiefs have been in TOO MANY DARN Super Bowls)</h3>
+  <h3>Philadelphia Eagles defeat Washington Commanders and advance to the Super Bowl (sources give around 65% chance for Eagles to win. Personal opinion: Eagles have also been in too many Super Bowls, but the Washington team was previously named something that could be considered racist by today's standards)</h3>
+  <br>
+  <h3>I predict that both teams will win by either a <strong>small margin (8 points or less)</strong> or a large margin (21 points or above) but not in between. Small margin is favored, according to sources. </h3>
   <p><strong>Ravens:</strong> 25, <strong>Bills:</strong> 27.</p>
+  <br>
+  <p><strong>Rams:</strong> 22, <strong>Eagles:</strong> 28.</p>
 
   <h3>Game Summary:</h3>
-  <p>The Buffalo Bills have won this thrilling divisional round matchup and will advance to face the Kansas City Chiefs in the AFC Championship game next Sunday!</p>
+  <p>Next games we'll be looking out for are the Commanders v. Eagles game and the Bills v. Chiefs game.</p>
 
-  <h3>Next Game:</h3>
-  <p>Bills will travel to Kansas City for the AFC Championship Game next Sunday.</p>
+  <h3>Next Games:</h3>
+  <p>Bills will travel to Kansas City for the AFC Championship Game next Sunday. Commanders will travel to Philadelphia for the NFC Championship Game next Sunday.</p>
 </div>
 
-<div class="victory-text">BILLS WIN!</div>
+<div class="victory-text">NEXT NFL GAMES: BILLS VS CHIEFS AND EAGLES VS. COMMANDERS</div>
 <img src="https://www.pngall.com/wp-content/uploads/13/Bills-Logo-PNG-Images.png" class="bouncing-logo" alt="Bills Logo">
+  <img src="https://www.bgobsession.com/attachments/washington-commanders-logo-2-png.9206" class="bouncing-logo" alt="Commanders Logo">
+  <img src="https://logos-world.net/wp-content/uploads/2020/05/Philadelphia-Eagles-Logo.png" class="bouncing-logo" alt="Eagles Logo">
+  <img src="https://logos-world.net/wp-content/uploads/2020/05/Kansas-City-Chiefs-Logo-1972-present.png" class="bouncing-logo" alt="Chiefs Logo">
 <div class="celebration-overlay"></div>
 
 <footer>
-   Game concluded on Sunday, January 19th, at 7:35 PM MST.
+   Bills v. Eagles Game concluded on Sunday, January 19th, at 7:35 PM MST.
    <br><a href="https://webneko.net">Neko</a>
 </footer>
 
@@ -187,6 +194,23 @@
     }
   }());
 })();
+</script>
+  <script>
+  function randomizePosition(element) {
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    const randomX = Math.random() * (screenWidth - 100); 
+    const randomY = Math.random() * (screenHeight - 100); 
+    element.style.left = randomX + 'px';
+    element.style.top = randomY + 'px';
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const logos = document.querySelectorAll('.bouncing-logo');
+    logos.forEach(logo => {
+      randomizePosition(logo);
+    });
+  });
 </script>
 
 </body>
