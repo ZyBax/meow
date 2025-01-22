@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sports Predictor</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Helvetica:wght@400;700&display=swap">
+  <script>NekoType = "fancy";</script>
+  <script src="https://webneko.net/n20171213.js"></script>
+  <style>
+    body {
+      font-family: 'Helvetica', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #00338d;
+      color: white;
+    }
+    header img {
+      height: 50px;
+    }
+    .scrolling-text {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #00338d;
+      background-color: #e8e8e8;
+      padding: 10px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      height: 40px;
+    }
+    .scrolling-text span {
+      display: inline-block;
+      position: absolute;
+      animation: scroll-left 10s linear infinite;
+    }
+    @keyframes scroll-left {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+      color: #00338d;
+    }
+    h2, h3 {
+      text-align: center;
+    }
+    .team-logos {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .team-logos img {
+      height: 100px;
+    }
+    .content {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .content strong {
+      color: #00338d;
+    }
+    footer {
+      text-align: center;
+      padding: 10px 0;
+      background-color: #00338d;
+      color: white;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Sports Predictor</h1>
+</header>
+
+<div class="scrolling-text">
+  <span>LAST PLAY: /BUF 65.0% /BAL 19 - BUF 21 /0:00 - 3rd /END OF QUARTER 3</span>
+  <span>LAST PLAY: /BUF 76.4% /BAL 19 - BUF 24 /1st & 10 at BUF 35 /12:04 - 4th /Official Timeout at 12:04.</span>
+</div>
+
+<div class="team-logos">
+  <img src="https://www.pngall.com/wp-content/uploads/13/Bills-Logo-PNG-Images.png" alt="Buffalo Bills Logo">
+  <img src="https://logos-world.net/wp-content/uploads/2020/05/Baltimore-Ravens-logo.png" alt="Baltimore Ravens Logo">
+</div>
+
+<h1>The Meow.Autos <em><strong>SUPER RAD</strong></em> Sports Predictor</h1>
+
+<div class="content">
+  <h2>To watch the game, go to:</h2>
+  <p><strong>*STREAM EAST dot app*</strong></p>
+
+  <h2>Bills v. Ravens:</h2>
+
+  <h3>Time:</h3> 
+  <p><strong>End of 3rd Quarter</strong></p>
+  <p><strong>12:04 in the 4th quarter</strong></p>
+
+  <h3>I predict that the <strong>Bills</strong> will win this game at this moment.</h3>
+
+  <h3>Current win chance:</h3>
+
+  <p><strong>65.0%</strong> chance for the <strong>Bills.</strong></p>
+  <p><strong>76.4%</strong> chance for the <strong>Bills.</strong></p>
+
+  <h3>Score:</h3>
+
+  <p><strong>Ravens:</strong> 19, <strong>Bills:</strong> 21.</p>
+  <p><strong>Ravens:</strong> 19, <strong>Bills:</strong> 24.</p>
+
+  <h3>Last Play:</h3>
+
+  <p>End of the third quarter.</p>
+  <p>Official Timeout called with 12:04 remaining in the fourth quarter.</p>
+
+</div>
+
+<footer>
+   Stay tuned for updates! Current Date and Time is Sunday, January 19th, at **6:46 PM MST**.
+   Stay tuned for updates! Current Date and Time is Sunday, January 19th, at **6:51 PM MST**.
+   <br><a href="https://webneko.net">Neko</a>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+   const neko = document.createElement('div');
+   neko.innerHTML = '<a href="https://webneko.net">Neko</a>';
+   neko.style.textAlign = "center";
+   neko.style.marginTop = "20px";
+   document.body.appendChild(neko);
+});
+</script>
+
+</body>
+</html>
