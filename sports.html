@@ -6,9 +6,7 @@
   <title>The meow.autos SUPER RAD Sports Predictor!!</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Helvetica:wght@400;700&display=swap">
   <script>NekoType = "fancy";</script>
-  <script>
-  var avs_goal = false; // Set to true when goal happens
-</script>
+
   <script src="https://webneko.net/n20171213.js"></script>
   <style>
     body {
@@ -52,106 +50,16 @@
       color: #fff;
       padding: 10px 0;
     }
-
-    .zoom-text {
-      font-size: 100px;
-      font-weight: bold;
-      color: #0038a8;
-      text-align: center;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      animation: zoomInOut 3s infinite;
-      animation-play-state: paused; /* Initially paused */
-    }
-
-    @keyframes zoomInOut {
-      0% {
-        transform: translate(-50%, -50%) scale(1);
-      }
-      50% {
-        transform: translate(-50%, -50%) scale(1.5);
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(1);
-      }
-    }
-
-    /* Confetti Effect */
-    .confetti {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      z-index: 9999;
-      pointer-events: none;
-      width: 10px;
-      height: 10px;
-      background-color: #ff5733;
-      opacity: 1;
-      animation: confettiFall 3s linear infinite;
-    }
-
-    @keyframes confettiFall {
-      0% {
-        transform: translateX(0) translateY(0);
-        opacity: 1;
-      }
-      100% {
-        transform: translateX(calc(200px * (random() - 0.5))) translateY(100vh);
-        opacity: 0;
-      }
-    }
-
-    /* Function to randomize confetti colors */
-    function randomColor() {
-      let colors = ['#ff5733', '#33ff57', '#3357ff', '#f0f033', '#f033f0'];
-      return colors[Math.floor(Math.random() * colors.length)];
-    }
   </style>
 </head>
 <body>
-<div class="zoom-text" id="zoomText">
-  AVS SCORE!
-</div>
-
-<script>
-  // Confetti function
-  function createConfetti() {
-    if (avs_goal) { // Only create confetti if the goal happens
-      let confetti = document.createElement('div');
-      confetti.classList.add('confetti');
-      confetti.style.backgroundColor = randomColor(); // Randomize confetti color
-      document.body.appendChild(confetti);
-      setTimeout(() => confetti.remove(), 3000); // Remove confetti after it falls
-    }
-  }
-
-  // Trigger confetti every 0.5 seconds if goal is true
-  setInterval(createConfetti, 200); // Trigger confetti every 200ms
-
-  // Watch for the goal change
-  function checkGoal() {
-    if (avs_goal) {
-      document.getElementById("zoomText").style.animationPlayState = 'running'; // Start the zoom effect
-    } else {
-      document.getElementById("zoomText").style.animationPlayState = 'paused'; // Pause if no goal
-    }
-  }
-
-  // Set this to 'true' when the goal happens
-  function triggerGoal() {
-    avs_goal = true;
-    checkGoal();
-  }
-</script>
 
 <header>
   <h1>Sports Predictor</h1>
 </header>
 
 <marquee scrollamount="15">
-  CURRENT SCORE: 1-1. 6:54 IN 2nd. WPG VS COL. 50% FOR AVS, 50% FOR JETS. LAST PlAY: SHOT BY AVS, MISSED. - Donate to the American Red Cross, given an A- by Charity Watch and 4/4 stars by Charity Navigator, to help those affected by the LA wildfires.
+  CURRENT SCORE: 2-1. 6:54 IN 2nd. WPG VS COL. 25% FOR AVS, 75% FOR JETS. - Donate to the American Red Cross, given an A- by Charity Watch and 4/4 stars by Charity Navigator, to help those affected by the LA wildfires.
 </marquee>
 
 <div class="team-logos">
@@ -161,7 +69,7 @@
 
 <h1>The meow.autos <em><strong>SUPER RAD</strong></em> Sports Predictor</h1>
 <br>
-<h1>Current Score: WPG 1 - COL 1</h1>
+<h1>Current Score: WPG 2 - COL 1</h1>
 <div style="display: flex; justify-content: center; margin-top: 20px;">
   <a href="https://click.greatergood.com/clicktogive/ggc/home" target="_blank" style="text-decoration: none;">
       <div style="width: 234px; height: 60px; background-color: red; color: white; display: flex; justify-content: center; align-items: center; font-size: 16px; font-weight: bold; text-align: center; border-radius: 5px;">
@@ -175,7 +83,7 @@
   <p><strong>*STREAM EAST dot app*</strong></p>
 </div>
 
-<h1>JETS - 50% WIN CHANCE, 50% WIN CHANCE FOR AVS</h1>
+<h1>JETS - 75% WIN CHANCE, 25% WIN CHANCE FOR AVS</h1>
 
 <footer>
   Stay tuned for updates! Current Date and Time is Wednesday, January 22nd, at <strong>8:24PM MST.</strong>.
