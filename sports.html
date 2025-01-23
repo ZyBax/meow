@@ -3,201 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The meow.autos SUPER RAD Sports Predictor!!</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Helvetica:wght@400;700&display=swap">
-  <script>NekoType = "fancy";</script>
-
-  <script src="https://webneko.net/n20171213.js"></script>
+  <title>AVS WIN!</title>
   <style>
     body {
-      font-family: 'Helvetica', sans-serif;
-      text-align: center;
-      background-color: #f5f5f5;
-      color: #333;
+      margin: 0;
+      overflow: hidden;
+      background: black;
     }
 
-    header {
-      background-color: #0038a8;
-      color: #fff;
-      padding: 10px 0;
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      pointer-events: none;
     }
 
-    marquee {
-      background-color: #6f263d;
-      color: #fff;
+    #avs-win-text {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5rem;
       font-weight: bold;
-      padding: 10px 0;
+      color: white;
+      text-shadow: 2px 2px 5px red, -2px -2px 5px blue;
+      animation: spinZoom infinite 2s ease-in-out;
+      z-index: 20;
     }
 
-    .team-logos {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin: 20px 0;
+    @keyframes spinZoom {
+      0% {
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.5) rotate(180deg);
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1) rotate(360deg);
+      }
     }
 
-    .team-logos img {
-      height: 100px;
+    #start-button {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px 40px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      background-color: red;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      z-index: 30;
     }
 
-    .content h2, .content h3 {
-      color: #0038a8;
-    }
-
-    footer {
-      margin-top: 20px;
-      background-color: #6f263d;
-      color: #fff;
-      padding: 10px 0;
+    #start-button:hover {
+      background-color: darkred;
     }
   </style>
 </head>
 <body>
-<style>
-  #confetti-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    overflow: hidden;
-  }
+  <canvas id="confetti-canvas"></canvas>
+  <div id="avs-win-text" style="display:none;">AVS WIN!</div>
+  <button id="start-button">Start Celebration</button>
 
-  .confetti {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: red;
-    opacity: 0.8;
-    animation: confetti-fall linear infinite, confetti-spin linear infinite;
-  }
+  <script>
+    // Ensure DOM is fully loaded before attaching event listeners
+    window.onload = function () {
+      
+	  // Confetti Explosion
+	  function startConfetti() {
+        const confettiCanvas = document.getElementById("confetti-canvas");
+        const ctx = confettiCanvas.getContext("2d");
+        confettiCanvas.width = window.innerWidth;
+        confettiCanvas.height = window.innerHeight;
 
-  @keyframes confetti-fall {
-    0% {
-      transform: translateY(-100%) translateX(0);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(100vh) translateX(20px);
-      opacity: 0.5;
-    }
-  }
+        const confettiParticles = [];
+        const colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF"];
 
-  @keyframes confetti-spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
+        function createConfetti() {
+          for (let i = 0; i < 300; i++) {
+            confettiParticles.push({
+              x: Math.random() * confettiCanvas.width,
+              y: Math.random() * confettiCanvas.height,
+              r: Math.random() * 6 + 2,
+              color: colors[Math.floor(Math.random() * colors.length)],
+              dx: Math.random() * 4 - 2,
+              dy: Math.random() * -4 - 2,
+            });
+          }
+        }
 
-  button {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    z-index: 10;
-  }
-</style>
+        function drawConfetti() {
+          ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+          confettiParticles.forEach((p) => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+          });
+          updateConfetti();
+          requestAnimationFrame(drawConfetti);
+        }
 
-<div id="confetti-container"></div>
-<button id="start-confetti">Start Confetti</button>
+        function updateConfetti() {
+          confettiParticles.forEach((p) => {
+            p.x += p.dx;
+            p.y += p.dy;
+            if (p.y > confettiCanvas.height) p.y = Math.random() * -20;
+            if (p.x > confettiCanvas.width || p.x < 0) p.dx *= -1;
+          });
+        }
 
-<script>
-  const confettiContainer = document.getElementById('confetti-container');
+        createConfetti();
+        drawConfetti();
+	  }
 
-  function createConfettiParticle() {
-    const confetti = document.createElement('div');
-    confetti.classList.add('confetti');
+	  // Play overlapping air horns
+	  function playAirHorns() {
+		const airHornSrc = "airhorn.mp3"; // Local file
+		const numberOfHorns = 40; // Number of overlapping horns
 
-    // Randomize size, color, position, and animation duration
-    const colors = ['#FF5733', '#33FF57', '#3357FF', '#F7DC6F', '#AF7AC5', '#F1948A'];
-    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-    confetti.style.left = Math.random() * window.innerWidth + 'px';
-    confetti.style.animationDuration = Math.random() * (5 - 2) + 2 + 's';
-    confetti.style.width = Math.random() * (15 - 5) + 5 + 'px';
-    confetti.style.height = Math.random() * (15 - 5) + 5 + 'px';
+		for (let i = 0; i < numberOfHorns; i++) {
+		  setTimeout(() => {
+			const airHornAudio = new Audio(airHornSrc);
+			airHornAudio.volume = 1.0; // Max volume
+			airHornAudio.play();
+		  }, i * Math.random() * 200); // Slight random delay
+		}
+	  }
 
-    confettiContainer.appendChild(confetti);
-
-    // Remove the particle after the animation ends
-    setTimeout(() => {
-      confetti.remove();
-    }, 5000);
-  }
-
-  function startConfetti() {
-    setInterval(createConfettiParticle, 50); // Create new particles at intervals
-  }
-
-  document.getElementById('start-confetti').addEventListener('click', startConfetti);
-</script>
-
-<header>
-  <h1>Sports Predictor</h1>
-</header>
-
-<marquee scrollamount="15">
-  CURRENT SCORE: 3-2. END OT.
-</marquee>
-
-<div class="team-logos">
-  <img src="https://logos-download.com/wp-content/uploads/2016/04/Winnipeg_Jets_logo.png" alt="Winnipeg Jets Logo">
-  <img src="https://logos-world.net/wp-content/uploads/2020/05/Colorado-Avalanche-Logo1995-1999.png" alt="Colorado Avalanche Logo">
-</div>
-
-<h1>The meow.autos <em><strong>SUPER RAD</strong></em> Sports Predictor</h1>
-<br>
-<h1>Current Score: WPG 3 (25 Shots) - COL 2 (27 Shots)</h1>
-<div style="display: flex; justify-content: center; margin-top: 20px;">
-  <a href="https://click.greatergood.com/clicktogive/ggc/home" target="_blank" style="text-decoration: none;">
-      <div style="width: 234px; height: 60px; background-color: red; color: white; display: flex; justify-content: center; align-items: center; font-size: 16px; font-weight: bold; text-align: center; border-radius: 5px;">
-          CLICK TO GIVE
-      </div>
-  </a>
-</div>
-
-<div class="content">
-  <h2>To watch the game, go to:</h2>
-  <p><strong>*STREAM EAST dot app*</strong></p>
-</div>
-
-<h1>JETS - 100% WIN CHANCE, 0% WIN CHANCE FOR AVS</h1>
-<h1>JETS WIN</h1>
-<footer>
-  Stay tuned for updates! Current Date and Time is Wednesday, January 22nd, at <strong>8:24PM MST.</strong>.
-  <br><a href="https://webneko.net">Neko</a>
-</footer>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-   const neko = document.createElement('div');
-   neko.innerHTML = '<a href="https://webneko.net">Neko</a>';
-   neko.style.textAlign = "center";
-   neko.style.marginTop = "20px";
-   document.body.appendChild(neko);
-});
-</script>
-
-<iframe 
-  style="border-radius:12px; 
-         position: fixed; 
-         bottom: 10px; 
-         right: 10px; 
-         z-index: 1000;" 
-  src="https://open.spotify.com/embed/track/6AI3ezQ4o3HUoP6Dhudph3?utm_source=generator" 
-  width="300" 
-  height="80" 
-  frameBorder="0" 
-  allowfullscreen="" 
-  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-  loading="lazy">
-</iframe>
-
+	  // Start Celebration
+	  document.getElementById("start-button").addEventListener("click", () => {
+		document.getElementById("avs-win-text").style.display = "block";
+		document.getElementById("start-button").style.display = "none"; // Hide button
+		startConfetti();
+		playAirHorns();
+	  });
+	};
+	
+ </script>
 </body>
 </html>
