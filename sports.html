@@ -3,149 +3,133 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AVS 4 - RANGERS 4</title>
+  <title>Sports Predictor</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Helvetica:wght@400;700&display=swap">
+  <script>NekoType = "fancy";</script>
+  <script src="https://webneko.net/n20171213.js"></script>
   <style>
     body {
+      font-family: 'Helvetica', Arial, sans-serif;
       margin: 0;
+      padding: 0;
+      background-color: #fbe91f;
+      color: #333;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #e31837;
+      color: white;
+    }
+    header img {
+      height: 50px;
+    }
+    .scrolling-text {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #e31837;
+      background-color: #fff;
+      padding: 10px 0;
       overflow: hidden;
-      background: black;
+      white-space: nowrap;
+      position: relative;
+      height: 40px;
     }
-
-    #confetti-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 10;
-      pointer-events: none;
+    .scrolling-text span {
+      display: inline-block;
+      position: absolute;
+      animation: scroll-left 10s linear infinite;
     }
-
-    #avs-win-text {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 5rem;
-      font-weight: bold;
+    @keyframes scroll-left {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+      color: #e31837;
+    }
+    h2, h3 {
+      text-align: center;
+    }
+    .team-logos {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .team-logos img {
+      height: 100px;
+    }
+    .content {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .content strong {
+      color: #e31837;
+    }
+    footer {
+      text-align: center;
+      padding: 10px 0;
+      background-color: #e31837;
       color: white;
-      text-shadow: 2px 2px 5px red, -2px -2px 5px blue;
-      animation: spinZoom infinite 2s ease-in-out;
-      z-index: 20;
-    }
-
-    @keyframes spinZoom {
-      0% {
-        transform: translate(-50%, -50%) scale(1) rotate(0deg);
-      }
-      50% {
-        transform: translate(-50%, -50%) scale(1.5) rotate(180deg);
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(1) rotate(360deg);
-      }
-    }
-
-    #start-button {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 20px 40px;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: white;
-      background-color: red;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      z-index: 30;
-    }
-
-    #start-button:hover {
-      background-color: darkred;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
-  <canvas id="confetti-canvas"></canvas>
-  <div id="avs-win-text" style="display:none;">IT'S AVS 4 - RANGERS 4</div>
-  <button id="start-button">Start confetti</button>
-  <script>
-    // Ensure DOM is fully loaded before attaching event listeners
-    window.onload = function () {
-      
-	  // Confetti Explosion
-	  function startConfetti() {
-        const confettiCanvas = document.getElementById("confetti-canvas");
-        const ctx = confettiCanvas.getContext("2d");
-        confettiCanvas.width = window.innerWidth;
-        confettiCanvas.height = window.innerHeight;
 
-        const confettiParticles = [];
-        const colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF"];
+<header>
+  <h1>Sports Predictor</h1>
+</header>
 
-        function createConfetti() {
-          for (let i = 0; i < 300; i++) {
-            confettiParticles.push({
-              x: Math.random() * confettiCanvas.width,
-              y: Math.random() * confettiCanvas.height,
-              r: Math.random() * 6 + 2,
-              color: colors[Math.floor(Math.random() * colors.length)],
-              dx: Math.random() * 4 - 2,
-              dy: Math.random() * -4 - 2,
-            });
-          }
-        }
+<div class="scrolling-text">
+  <span>HALFTIME: Chiefs lead the Bills 21-16 at Arrowhead Stadium. Stay tuned for the second half!</span>
+</div>
 
-        function drawConfetti() {
-          ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-          confettiParticles.forEach((p) => {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = p.color;
-            ctx.fill();
-          });
-          updateConfetti();
-          requestAnimationFrame(drawConfetti);
-        }
+<div class="team-logos">
+  <img src="https://www.pngall.com/wp-content/uploads/13/Bills-Logo-PNG-Images.png" alt="Buffalo Bills Logo">
+  <img src="https://logos-world.net/wp-content/uploads/2020/05/Kansas-City-Chiefs-Logo-1972-present.png" alt="Kansas City Chiefs Logo">
+</div>
 
-        function updateConfetti() {
-          confettiParticles.forEach((p) => {
-            p.x += p.dx;
-            p.y += p.dy;
-            if (p.y > confettiCanvas.height) p.y = Math.random() * -20;
-            if (p.x > confettiCanvas.width || p.x < 0) p.dx *= -1;
-          });
-        }
+<h1>The Meow.Autos <em><strong>SUPER RAD</strong></em> Sports Predictor</h1>
 
-        createConfetti();
-        drawConfetti();
-	  }
+<div class="content">
+  <h2>To watch the game, go to:</h2>
+  <p><strong>*STREAM EAST dot app*</strong></p>
 
-	  // Play overlapping air horns
-	  function playAirHorns() {
-		const airHornSrc = "airhorn.mp3"; 
-		const numberOfHorns = 15; // Number of overlapping horns
+  <h2>Bills v. Chiefs:</h2>
 
-		for (let i = 0; i < numberOfHorns; i++) {
-		  setTimeout(() => {
-			const airHornAudio = new Audio(airHornSrc);
-			airHornAudio.volume = 1.0; // Max volume
-			airHornAudio.play();
-		  }, i * Math.random() * 200); // Slight random delay
-		}
-	  }
+  <h3>Current Time:</h3> 
+  <p><strong>Halftime</strong></p>
 
-	  // Start Celebration
-	  document.getElementById("start-button").addEventListener("click", () => {
-		document.getElementById("avs-win-text").style.display = "block";
-		document.getElementById("start-button").style.display = "none"; // Hide button
-		startConfetti();
-		playAirHorns();
-	  });
-	};
-	
- </script>
+  <h3>I predict that the <strong>Bills</strong> will pull through.</h3>
+
+  <h3>Current win chance:</h3>
+
+  <p><strong>68.3%</strong> chance for the <strong>Chiefs.</strong></p>
+
+  <h3>Score:</h3>
+
+  <p><strong>Bills:</strong> 16, <strong>Chiefs:</strong> 21.</p>
+</div>
+
+<footer>
+   Stay tuned for updates! Current Date and Time is Sunday, January 26th, at **6:31 PM MST**.
+   <br><a href="https://webneko.net">Neko</a>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+   const neko = document.createElement('div');
+   neko.innerHTML = '<a href="https://webneko.net">Neko</a>';
+   neko.style.textAlign = "center";
+   neko.style.marginTop = "20px";
+   document.body.appendChild(neko);
+});
+</script>
+
 </body>
 </html>
