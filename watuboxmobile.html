@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watubox Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Product Sans', 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #000000;
+            color: white;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
+        }
+
+        .sidebar {
+            width: 100%;
+            padding: 20px;
+            background: rgba(0,0,0,0.9);
+        }
+
+        @media (min-width: 768px) {
+            .sidebar {
+                width: 280px;
+                height: 100vh;
+                overflow-y: auto;
+            }
+        }
+
+        .sidebar-header {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .category {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            margin: 4px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .category.active {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .category-icon {
+            margin-right: 12px;
+        }
+
+        .channel-count {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background: linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0.7));
+            overflow-x: auto;
+        }
+
+        .guide-header {
+            display: grid;
+            grid-template-columns: minmax(120px, 200px) repeat(3, minmax(100px, 1fr));
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 2;
+        }
+
+        .time-slot {
+            padding: 8px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        @media (min-width: 768px) {
+            .time-slot {
+                font-size: 16px;
+            }
+        }
+
+        .channel-grid {
+            display: grid;
+            grid-template-columns: minmax(120px, 200px) repeat(3, minmax(100px, 1fr));
+            min-width: 100%;
+        }
+
+        .channel-row {
+            display: contents;
+        }
+
+        .channel-name {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0,0,0,0.8);
+            position: sticky;
+            left: 0;
+            font-size: 14px;
+        }
+
+        @media (min-width: 768px) {
+            .channel-name {
+                font-size: 16px;
+            }
+        }
+
+        .channel-logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            background: #333;
+        }
+
+        @media (min-width: 768px) {
+            .channel-logo {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+        .program {
+            padding: 16px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+
+        @media (min-width: 768px) {
+            .program {
+                font-size: 16px;
+            }
+        }
+
+        .program:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .program.current {
+            border-left: 2px solid #ff0000;
+        }
+
+        .fullscreen-player {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: black;
+            display: none;
+            z-index: 1000;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 1001;
+            font-size: 16px;
+        }
+
+        iframe {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: normal;
+        }
+
+        @media (min-width: 768px) {
+            .header h1 {
+                font-size: 24px;
+            }
+        }
+
+        #clock {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        @media (min-width: 768px) {
+            #clock {
+                font-size: 14px;
+            }
+        }
+
+        .current-time-indicator {
+            position: absolute;
+            width: 2px;
+            background: red;
+            height: 100%;
+            top: 0;
+            z-index: 1;
+        }
+
+        .watubox-logo {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 180px;
+            height: auto;
+            z-index: 1001;
+        }
+
+        @media (min-width: 768px) {
+            .watubox-logo {
+                width: 360px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-header">YOUR CHANNELS</div>
+            <div class="category active">
+                <div>
+                    <span class="category-icon">⭐</span>
+                    <span>Favorites</span>
+                </div>
+                <span class="channel-count">7 channels</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <h1>Live TV Guide</h1>
+                <div id="clock"></div>
+            </div>
+
+            <div class="guide-header">
+                <div></div>
+                <div class="time-slot">10:00 PM</div>
+                <div class="time-slot">10:30 PM</div>
+                <div class="time-slot">11:00 PM</div>
+            </div>
+
+            <div class="channel-grid" id="channelGrid"></div>
+        </div>
+    </div>
+
+    <div class="fullscreen-player" id="player">
+        <button class="back-button" onclick="closePlayer()">Back to Guide</button>
+        <div id="player-content"></div>
+    </div>
+
+    <img src="https://i.postimg.cc/0NLcdZfS/Watubox-logo-1.png" alt="Watubox Logo" class="watubox-logo">
+
+    <script>
+        const channels = [
+            {
+                name: 'NBC News',
+                logo: '📰',
+                program: 'Live Coverage',
+                url: 'https://www.youtube.com/embed/Tgb1tZZ6tsE?autoplay=1&rel=0'
+            },
+            {
+                name: 'ABC News',
+                logo: '📰',
+                program: 'Live Coverage',
+                url: 'https://www.youtube.com/embed/-mvUkiILTqI?autoplay=1&rel=0'
+            },
+            {
+                name: 'Fox LiveNow',
+                logo: '📰',
+                program: 'Live Coverage',
+                url: 'https://www.youtube.com/embed/YDfiTGGPYCk?autoplay=1&rel=0'
+            },
+            {
+                name: 'Trident Ad',
+                logo: '📺',
+                program: 'Advertisements',
+                url: 'https://www.youtube.com/embed/SvpnOXwt-cA?autoplay=1&rel=0&loop=1&playlist=SvpnOXwt-cA'
+            },
+            {
+                name: 'Coca-Cola Ad',
+                logo: '📺',
+                program: 'Advertisements',
+                playlist: [
+                    'kpHBxLqkikw',
+                    '4RSTupbfGog',
+                    'eOMhOjgNd7Q',
+                    'VGa1imApfdg',
+                    'ZOsK4NCmElw'
+                ]
+            },
+            {
+                name: 'Cumberland Gap',
+                logo: '🌄',
+                program: 'Nature Loop',
+                embed: '<iframe title="Video Embed" src="https://www.nps.gov/media/video/embed.htm?id=CA5EB109-1DD8-B71B-0B2FDE552C45EEEF" width="100%" height="100%" frameborder="0" scrolling="auto" allowfullscreen></iframe>'
+            },
+            {
+                name: 'CNN',
+                logo: '📰',
+                program: 'Closed for Maintenance',
+                url: 'https://i.postimg.cc/VsXX2zY2/Watubox-Channel-Down.png'
+            },
+            {
+                name: '9News',
+                logo: '📰',
+                program: 'Closed for Maintenance',
+                url: 'https://i.postimg.cc/VsXX2zY2/Watubox-Channel-Down.png'
+            },
+            {
+                name: 'Denver7',
+                logo: '📰',
+                program: 'Closed for Maintenance',
+                url: 'https://i.postimg.cc/VsXX2zY2/Watubox-Channel-Down.png'
+            },
+            {
+                name: 'ESPN',
+                logo: '🏈',
+                program: 'Closed for Maintenance',
+                url: 'https://i.postimg.cc/VsXX2zY2/Watubox-Channel-Down.png'
+            }
+        ];
+
+        function generateChannelGrid() {
+            const grid = document.getElementById('channelGrid');
+            channels.forEach(channel => {
+                const row = document.createElement('div');
+                row.className = 'channel-row';
+
+                const channelName = document.createElement('div');
+                channelName.className = 'channel-name';
+                channelName.innerHTML = `
+                    <div class="channel-logo">${channel.logo}</div>
+                    <span>${channel.name}</span>
+                `;
+
+                const program = document.createElement('div');
+                program.className = 'program current';
+                program.style.gridColumn = '2 / span 3';
+                program.textContent = channel.program;
+                program.onclick = () => playChannel(channel);
+
+                grid.appendChild(channelName);
+                grid.appendChild(program);
+            });
+        }
+
+        let youtubePlayer;
+        function onYouTubeIframeAPIReady() {
+            // YouTube API is ready
+        }
+
+        function playChannel(channel) {
+            const player = document.getElementById('player');
+            const playerContent = document.getElementById('player-content');
+            
+            if (channel.playlist) {
+                let currentVideoIndex = 0;
+                playerContent.innerHTML = '<div id="youtubePlayer"></div>';
+                
+                youtubePlayer = new YT.Player('youtubePlayer', {
+                    height: '100%',
+                    width: '100%',
+                    videoId: channel.playlist[currentVideoIndex],
+                    playerVars: {
+                        'autoplay': 1,
+                        'controls': 0,
+                        'rel': 0
+                    },
+                    events: {
+                        'onStateChange': function(event) {
+                            if (event.data === YT.PlayerState.ENDED) {
+                                currentVideoIndex = (currentVideoIndex + 1) % channel.playlist.length;
+                                youtubePlayer.loadVideoById(channel.playlist[currentVideoIndex]);
+                            }
+                        }
+                    }
+                });
+            } else if (channel.embed) {
+                playerContent.innerHTML = channel.embed;
+            } else if (channel.url) {
+                if (channel.url.includes('youtube.com')) {
+                    playerContent.innerHTML = `<iframe src="${channel.url}" allowfullscreen></iframe>`;
+                } else {
+                    playerContent.innerHTML = `<img src="${channel.url}" alt="Channel Maintenance" style="width:100%;height:100%;object-fit:contain;">`;
+                }
+            } else {
+                playerContent.innerHTML = `<img src="https://i.postimg.cc/VsXX2zY2/Watubox-Channel-Down.png" alt="Channel Maintenance" style="width:100%;height:100%;object-fit:contain;">`;
+            }
+            player.style.display = 'block';
+        }
+
+        function closePlayer() {
+            const player = document.getElementById('player');
+            const playerContent = document.getElementById('player-content');
+            if (youtubePlayer) {
+                youtubePlayer.destroy();
+                youtubePlayer = null;
+            }
+            player.style.display = 'none';
+            playerContent.innerHTML = '';
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const options = {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZoneName: 'short'
+            };
+            document.getElementById('clock').textContent = now.toLocaleString('en-US', options);
+        }
+
+        // Load YouTube API
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // Initialize
+        generateChannelGrid();
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closePlayer();
+            }
+        });
+    </script>
+</body>
+</html>
