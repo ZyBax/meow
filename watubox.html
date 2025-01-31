@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Watubox Online</title>
-        <link rel="apple-touch-icon" href="cat.jpg">
+    <link rel="apple-touch-icon" href="cat.jpg">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Watubox">
@@ -257,6 +257,25 @@
                 width: 360px;
             }
         }
+
+        .provider-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            background: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 1002;
+        }
+
+        .provider-button:hover {
+            background: #cc0000;
+        }
     </style>
 </head>
 <body>
@@ -268,7 +287,7 @@
                     <span class="category-icon">⭐</span>
                     <span>Favorites</span>
                 </div>
-                <span class="channel-count">7 channels</span>
+                <span class="channel-count">10 channels</span>
             </div>
         </div>
 
@@ -294,7 +313,7 @@
         <div id="player-content"></div>
     </div>
 
-    <img src="https://i.postimg.cc/0NLcdZfS/Watubox-logo-1.png" alt="Watubox Logo" class="watubox-logo">
+    <img src="https://i.postimg.cc/0NLcdZfS/Watubox-logo-1.png" alt="Watubox Logo" class="watubox-logo" id="watubox-logo">
 
     <script>
         const channels = [
@@ -363,6 +382,33 @@
                 logo: '🏈',
                 program: 'Closed for Maintenance',
                 url: 'https://i.postimg.cc/VsXX2zY2/Watubox-Channel-Down.png'
+            },
+            {
+                name: 'Movies & TV On Demand (Provider 1)',
+                logo: '🎬',
+                program: 'On Demand Content',
+                provider: {
+                    name: 'Go to On Demand Provider 1',
+                    link: 'https://movies.levrx.lol'
+                }
+            },
+            {
+                name: 'Movies & TV On Demand (Provider 2)',
+                logo: '🎬',
+                program: 'On Demand Content',
+                provider: {
+                    name: 'Go to On Demand Provider 2',
+                    link: 'https://vidbinge.com'
+                }
+            },
+            {
+                name: 'Live Sports',
+                logo: '🏈',
+                program: 'Live Sports Coverage',
+                provider: {
+                    name: 'Go to Live Sports',
+                    link: 'https://gostreameast.link'
+                }
             }
         ];
 
@@ -385,8 +431,9 @@
                 program.textContent = channel.program;
                 program.onclick = () => playChannel(channel);
 
-                grid.appendChild(channelName);
-                grid.appendChild(program);
+                row.appendChild(channelName);
+                row.appendChild(program);
+                grid.appendChild(row);
             });
         }
 
@@ -398,11 +445,21 @@
         function playChannel(channel) {
             const player = document.getElementById('player');
             const playerContent = document.getElementById('player-content');
-            
-            if (channel.playlist) {
+            const watuboxLogo = document.getElementById('watubox-logo');
+
+            // Hide the Watubox logo when in fullscreen player
+            watuboxLogo.style.display = 'none';
+
+            if (channel.provider) {
+                playerContent.innerHTML = `
+                    <button class="provider-button" onclick="window.open('${channel.provider.link}', '_blank')">
+                        ${channel.provider.name}
+                    </button>
+                `;
+            } else if (channel.playlist) {
                 let currentVideoIndex = 0;
                 playerContent.innerHTML = '<div id="youtubePlayer"></div>';
-                
+
                 youtubePlayer = new YT.Player('youtubePlayer', {
                     height: '100%',
                     width: '100%',
@@ -438,6 +495,11 @@
         function closePlayer() {
             const player = document.getElementById('player');
             const playerContent = document.getElementById('player-content');
+            const watuboxLogo = document.getElementById('watubox-logo');
+
+            // Show the Watubox logo when returning to the guide
+            watuboxLogo.style.display = 'block';
+
             if (youtubePlayer) {
                 youtubePlayer.destroy();
                 youtubePlayer = null;
