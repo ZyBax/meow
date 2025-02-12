@@ -34,7 +34,7 @@
         const loader = new THREE.GLTFLoader();
         loader.load('cat.glb', (gltf) => {
             const model = gltf.scene;
-            model.scale.set(2, 2, 2);
+            .set(0.1, 0.1, 0.1);
             scene.add(model);
 
             const animate = () => {
