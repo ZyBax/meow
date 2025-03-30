@@ -3,50 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>meow.autos Sports Predictor</title>
+    <title>NHL Predictions</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #1a1a1a;
-            color: white;
+            font-family: "Georgia", serif;
+            background-color: #f8f9fa;
             text-align: center;
-            padding: 20px;
+            padding: 50px;
         }
         .container {
-            max-width: 800px;
+            max-width: 600px;
             margin: auto;
-            background: #333;
-            padding: 20px;
-            border-radius: 10px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        .prediction {
-            font-size: 1.5em;
-            margin-top: 20px;
+        h1 {
+            color: #2c3e50;
+            font-size: 28px;
         }
-        .percentage-text {
-            font-size: 1.2em;
-            margin-top: 20px;
+        p {
+            font-size: 18px;
+            color: #555;
         }
-        .score-link {
-            display: inline-block;
-            margin-top: 20px;
-            font-size: 1.2em;
-            color: #00aaff;
+        a {
+            color: #007bff;
             text-decoration: none;
+            font-weight: bold;
         }
-        .score-link:hover {
+        a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>meow.autos Sports Predictor</h1>
-        <marquee>AND THE AVS WIN!</marquee>
-        <a class="score-link" href="https://www.google.com/search?q=Chicago+Blackhawks+at+Colorado+Avalanche+hockey+score" target="_blank">Score</a>
-        <p class="prediction">I predict that the Colorado Avalanche will win.</p>
-        <p class="percentage-text">Colorado Avalanche Win Chance*: <span id="winChance">100%</span></p>
+        <h1>NHL Predictions</h1>
+        <p>From now on, all my NHL predictions will be available at <a href="/predictions">/predictions</a>.</p>
     </div>
-    <p>*I calculate the Win Chance percentage by getting percentages & betting odds from my sources and then adding my own spice to it. For example, my sources predicted a 60% win chance for the Avs at 7 minutes in the 2nd period in the Blackhawks vs. Avalanche game on March 10th, 2025, but due to the incredible defensive plays, I bumped it up by 10%.</p>
 </body>
 </html>
