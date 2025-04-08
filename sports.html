@@ -73,6 +73,8 @@
       width: 30px;
       height: 30px;
       margin-right: 8px;
+      background: var(--card);
+      border-radius: 4px;
     }
 
     .status, .venue {
@@ -136,6 +138,26 @@
   </div>
 
   <script>
+    const sports = [
+      ['football', 'nfl', 'NFL'],
+      ['football', 'college-football', 'NCAAF'],
+      ['basketball', 'nba', 'NBA'],
+      ['basketball', 'mens-college-basketball', 'NCAAM'],
+      ['basketball', 'womens-college-basketball', 'NCAAW'],
+      ['hockey', 'nhl', 'NHL'],
+      ['baseball', 'mlb', 'MLB'],
+      ['soccer', 'usa.1', 'MLS'],
+      ['soccer', 'eng.1', 'Premier League'],
+      ['mma', 'ufc', 'UFC'],
+      ['golf', 'pga', 'PGA Tour'],
+      ['tennis', 'atp', 'ATP'],
+      ['tennis', 'wta', 'WTA'],
+      ['racing', 'f1', 'Formula 1'],
+      ['racing', 'nascar', 'NASCAR'],
+      ['esports', 'lol', 'LoL Esports'],
+      ['esports', 'csgo', 'CS:GO']
+    ];
+
     function toggleTheme() {
       const current = document.documentElement.getAttribute('data-theme');
       const next = current === 'dark' ? 'light' : 'dark';
@@ -147,16 +169,7 @@
       document.documentElement.setAttribute('data-theme', 'dark');
     }
 
-    const sports = [
-      ['football', 'nfl', 'NFL'],
-      ['basketball', 'nba', 'NBA'],
-      ['hockey', 'nhl', 'NHL'],
-      ['baseball', 'mlb', 'MLB'],
-      ['soccer', 'usa.1', 'MLS'],
-      ['soccer', 'eng.1', 'Premier League']
-    ];
-
-    async function loadAllSports() {
+    async function loadAllScores() {
       const container = document.getElementById('scores');
       const toc = document.getElementById('toc');
       container.innerHTML = '';
@@ -165,10 +178,10 @@
       for (const [league, sport, displayName] of sports) {
         try {
           const url = `https://site.api.espn.com/apis/site/v2/sports/${league}/${sport}/scoreboard`;
-          const response = await fetch(url);
-          const data = await response.json();
+          const res = await fetch(url);
+          const data = await res.json();
+          const games = (data.events || []).sort((a, b) => new Date(a.date) - new Date(b.date));
 
-          const games = data.events.sort((a, b) => new Date(a.date) - new Date(b.date));
           if (!games.length) continue;
 
           const sectionId = `${league}-${sport}`;
@@ -186,13 +199,13 @@
             const status = game.status.type.shortDetail;
             const isOT = status.toLowerCase().includes('ot') && !status.toLowerCase().includes('final');
 
-            const gameDiv = document.createElement('div');
-            gameDiv.className = 'game';
-            if (isOT) gameDiv.classList.add('ot');
-
             const startTime = new Date(game.date);
             const localTime = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             const localDate = startTime.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' });
+
+            const gameDiv = document.createElement('div');
+            gameDiv.className = 'game';
+            if (isOT) gameDiv.classList.add('ot');
 
             gameDiv.innerHTML = `
               <div class="team">
@@ -204,15 +217,15 @@
                 ${home.team.displayName} <span class="score">${home.score}</span>
               </div>
               <div class="status">${status} – ${localTime} – ${localDate}</div>
-              <div class="venue">${comp.venue.fullName || ''}</div>
+              <div class="venue">${comp.venue?.fullName || ''}</div>
             `;
 
             section.appendChild(gameDiv);
           });
 
           container.appendChild(section);
-        } catch (e) {
-          console.error(`Failed to load ${displayName}`, e);
+        } catch (err) {
+          console.error(`Error loading ${displayName}:`, err);
         }
       }
     }
@@ -225,10 +238,10 @@
     }
 
     window.onload = () => {
-      loadAllSports();
-      setInterval(loadAllSports, 60000); // Refresh every 60 sec
-      setInterval(rotateCats, 30000);    // New cat ads every 30 sec
-    };
+      loadAllScores();
+      setInterval(loadAllScores, 60000);
+      setInterval(rotateCats, 30000);
+    }
   </script>
 </body>
 </html>
