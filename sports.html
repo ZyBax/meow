@@ -1,52 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NHL Predictions</title>
-    <style>
-        body {
-            font-family: "Georgia", serif;
-            background-color: #f8f9fa;
-            text-align: center;
-            padding: 50px;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #2c3e50;
-            font-size: 28px;
-        }
-        p {
-            font-size: 18px;
-            color: #555;
-        }
-        a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Live Sports Scoreboard</title>
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#4da3ff" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" />
+  <style>
+    :root {
+      --bg: #f4f4f4;
+      --text: #111;
+      --card: #fff;
+      --border: #ddd;
+      --ot-highlight: #fffae6;
+    }
+
+    [data-theme="dark"] {
+      --bg: #121212;
+      --text: #f9f9f9;
+      --card: #1e1e1e;
+      --border: #333;
+      --ot-highlight: #1e2e3e;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    .toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+    }
+
+    .score-section {
+      background: var(--card);
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 40px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .game {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .game.ot {
+      background: var(--ot-highlight);
+      border-left: 6px solid #2196f3;
+    }
+
+    .team {
+      display: flex;
+      align-items: center;
+    }
+
+    .team img {
+      width: 30px;
+      height: 30px;
+      margin-right: 8px;
+    }
+
+    .status, .venue {
+      font-size: 0.9em;
+      width: 100%;
+    }
+
+    .score {
+      font-weight: bold;
+      margin-left: 10px;
+    }
+
+    .toc {
+      margin-bottom: 24px;
+      background: var(--card);
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .toc a {
+      display: block;
+      text-decoration: none;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      padding: 6px 0;
+    }
+
+    .ads {
+      margin: 40px auto;
+      text-align: center;
+    }
+
+    .ads img {
+      width: 728px;
+      height: 90px;
+      object-fit: fill;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>NHL Predictions</h1>
-        <p>From now on, all my NHL predictions will be available at <a href="/predictions">/predictions</a>.</p>
-    </div>
-    <div class="container">
-<h1>Houston v. Florida March Madness FINAL</h1>
-        <p>Sources say:</p>
-<p>Florida 18 - 20 Houston</p>
-        <h2>68.1% for Houston</h2>
-    </div>
+  <div class="toggle">
+    <button onclick="toggleTheme()">🌓 Toggle Dark Mode</button>
+  </div>
+
+  <h1>📺 Live Sports Scoreboard</h1>
+
+  <div class="ads">
+    <img id="cat-ad" src="https://cataas.com/cat?1" alt="Cat Ad" />
+  </div>
+
+  <div class="toc" id="toc">
+    <h3>Jump to Sport</h3>
+  </div>
+
+  <div id="scores">Loading live scores...</div>
+
+  <div class="ads">
+    <img id="cat-ad-bottom" src="https://cataas.com/cat?2" alt="Cat Ad" />
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    }
+
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+
+    const sports = [
+      ['football', 'nfl', 'NFL'],
+      ['basketball', 'nba', 'NBA'],
+      ['hockey', 'nhl', 'NHL'],
+      ['baseball', 'mlb', 'MLB'],
+      ['soccer', 'usa.1', 'MLS'],
+      ['soccer', 'eng.1', 'Premier League']
+    ];
+
+    async function loadAllSports() {
+      const container = document.getElementById('scores');
+      const toc = document.getElementById('toc');
+      container.innerHTML = '';
+      toc.innerHTML = '<h3>Jump to Sport</h3>';
+
+      for (const [league, sport, displayName] of sports) {
+        try {
+          const url = `https://site.api.espn.com/apis/site/v2/sports/${league}/${sport}/scoreboard`;
+          const response = await fetch(url);
+          const data = await response.json();
+
+          const games = data.events.sort((a, b) => new Date(a.date) - new Date(b.date));
+          if (!games.length) continue;
+
+          const sectionId = `${league}-${sport}`;
+          toc.innerHTML += `<a href="#${sectionId}">${displayName}</a>`;
+
+          const section = document.createElement('div');
+          section.className = 'score-section';
+          section.id = sectionId;
+          section.innerHTML = `<h2>${displayName}</h2>`;
+
+          games.forEach(game => {
+            const comp = game.competitions[0];
+            const home = comp.competitors.find(c => c.homeAway === 'home');
+            const away = comp.competitors.find(c => c.homeAway === 'away');
+            const status = game.status.type.shortDetail;
+            const isOT = status.toLowerCase().includes('ot') && !status.toLowerCase().includes('final');
+
+            const gameDiv = document.createElement('div');
+            gameDiv.className = 'game';
+            if (isOT) gameDiv.classList.add('ot');
+
+            const startTime = new Date(game.date);
+            const localTime = startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const localDate = startTime.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' });
+
+            gameDiv.innerHTML = `
+              <div class="team">
+                <img src="${away.team.logo}" alt="${away.team.abbreviation}" />
+                ${away.team.displayName} <span class="score">${away.score}</span>
+              </div>
+              <div class="team">
+                <img src="${home.team.logo}" alt="${home.team.abbreviation}" />
+                ${home.team.displayName} <span class="score">${home.score}</span>
+              </div>
+              <div class="status">${status} – ${localTime} – ${localDate}</div>
+              <div class="venue">${comp.venue.fullName || ''}</div>
+            `;
+
+            section.appendChild(gameDiv);
+          });
+
+          container.appendChild(section);
+        } catch (e) {
+          console.error(`Failed to load ${displayName}`, e);
+        }
+      }
+    }
+
+    function rotateCats() {
+      const rand1 = Math.floor(Math.random() * 9999);
+      const rand2 = Math.floor(Math.random() * 9999);
+      document.getElementById('cat-ad').src = `https://cataas.com/cat?${rand1}`;
+      document.getElementById('cat-ad-bottom').src = `https://cataas.com/cat?${rand2}`;
+    }
+
+    window.onload = () => {
+      loadAllSports();
+      setInterval(loadAllSports, 60000); // Refresh every 60 sec
+      setInterval(rotateCats, 30000);    // New cat ads every 30 sec
+    };
+  </script>
 </body>
 </html>
