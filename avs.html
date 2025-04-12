@@ -3,64 +3,75 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Avs Scoreboard</title>
+  <title>Colorado Avalanche Live Score</title>
   <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#4da3ff" />
+  <meta name="theme-color" content="#6F263D" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" />
   <style>
-    :root {
-      --bg: #f4f4f4;
-      --text: #111;
-      --card: #fff;
-      --border: #ddd;
-    }
-    [data-theme="dark"] {
-      --bg: #121212;
-      --text: #f9f9f9;
-      --card: #1e1e1e;
-      --border: #333;
-    }
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
       margin: 0;
-      padding: 20px;
+      padding: 0;
+      overflow-x: hidden;
+      background: linear-gradient(-45deg, #6F263D, #236192, #6F263D);
+      background-size: 600% 600%;
+      animation: gradientWave 20s ease infinite;
+      color: #fff;
     }
+
+    @keyframes gradientWave {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     h1 {
       text-align: center;
-      font-size: 2.5em;
+      font-size: 3rem;
+      margin-top: 20px;
     }
+
     .game {
-      background: var(--card);
-      padding: 30px;
-      border-radius: 16px;
       display: flex;
       justify-content: space-around;
       align-items: center;
-      font-size: 2em;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+      background: rgba(0, 0, 0, 0.6);
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 16px;
+      max-width: 800px;
+      font-size: 2rem;
     }
+
     .team {
       display: flex;
       align-items: center;
     }
+
     .team img {
-      width: 60px;
-      height: 60px;
+      width: 80px;
+      height: 80px;
       margin-right: 12px;
     }
+
     .score {
-      font-size: 3em;
       font-weight: bold;
       margin-left: 10px;
+      font-size: 3rem;
     }
-    #confetti {
+
+    .info {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 1.2rem;
+    }
+
+    #confetti-canvas {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
       z-index: 9999;
     }
@@ -68,71 +79,80 @@
 </head>
 <body>
   <h1>Colorado Avalanche Live Score</h1>
-  <div id="game-container">Loading...</div>
-  <canvas id="confetti"></canvas>
+  <div id="scoreContainer">Loading Avs game...</div>
+  <canvas id="confetti-canvas"></canvas>
   <audio id="airhorn" src="/airhorn.mp3" preload="auto"></audio>
 
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
   <script>
-    let lastScore = {};
+    async function loadAvsGame() {
+      try {
+        const res = await fetch('https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard');
+        const data = await res.json();
+        const avsGame = data.events.find(event => event.name.includes('Avalanche'));
+
+        if (!avsGame) {
+          document.getElementById('scoreContainer').innerHTML = '<p class="info">No Avs game found right now, mate.</p>';
+          return;
+        }
+
+        const comp = avsGame.competitions[0];
+        const home = comp.competitors.find(c => c.homeAway === 'home');
+        const away = comp.competitors.find(c => c.homeAway === 'away');
+        const status = avsGame.status.type;
+        const venue = comp.venue?.fullName || '';
+        const period = comp.status.period;
+        const clock = comp.status.displayClock;
+        const isFinal = status.state === 'post'
+
+        const html = `
+          <div class="game">
+            <div class="team">
+              <img src="${away.team.logo}" alt="${away.team.abbreviation}" />
+              ${away.team.displayName} <span class="score">${away.score}</span>
+            </div>
+            <div class="team">
+              <img src="${home.team.logo}" alt="${home.team.abbreviation}" />
+              ${home.team.displayName} <span class="score">${home.score}</span>
+            </div>
+          </div>
+          <div class="info">
+            ${status.shortDetail}<br/>
+            ${isFinal ? '<strong>FINAL</strong>' : `Period ${period}, ${clock}`}<br/>
+            ${venue}
+          </div>
+        `;
+
+        document.getElementById('scoreContainer').innerHTML = html;
+
+        const previousScore = window._prevScore || `${away.score}-${home.score}`;
+        const newScore = `${away.score}-${home.score}`;
+
+        if (previousScore !== newScore) {
+          triggerCelebration();
+        }
+
+        window._prevScore = newScore;
+      } catch (err) {
+        console.error('Error loading Avs game:', err);
+      }
+    }
 
     function triggerCelebration() {
       document.getElementById('airhorn').play();
       confetti({
-        particleCount: 200,
-        spread: 120,
+        particleCount: 300,
+        spread: 100,
         origin: { y: 0.6 },
+        zIndex: 9999
       });
     }
 
-    async function loadAvsGame() {
-      const res = await fetch('https://site.api.espn.com/apis/site/v2/sports/hockey/nhl/scoreboard');
-      const data = await res.json();
-      const avsGame = data.events.find(event => {
-        return event.competitions[0].competitors.some(team => team.team.displayName.includes('Avalanche'));
-      });
-
-      const container = document.getElementById('game-container');
-      if (!avsGame) return container.innerHTML = 'No Avs game right now.';
-
-      const comp = avsGame.competitions[0];
-      const home = comp.competitors.find(c => c.homeAway === 'home');
-      const away = comp.competitors.find(c => c.homeAway === 'away');
-
-      const newScores = {
-        home: parseInt(home.score),
-        away: parseInt(away.score)
-      };
-
-      if (lastScore.home !== undefined && (lastScore.home !== newScores.home || lastScore.away !== newScores.away)) {
-        if (home.team.displayName.includes('Avalanche') && lastScore.home < newScores.home) {
-          triggerCelebration();
-        }
-        if (away.team.displayName.includes('Avalanche') && lastScore.away < newScores.away) {
-          triggerCelebration();
-        }
-      }
-
-      lastScore = newScores;
-
-      container.innerHTML = `
-        <div class="game">
-          <div class="team">
-            <img src="${away.team.logo}" alt="${away.team.abbreviation}" />
-            ${away.team.displayName}<span class="score">${away.score}</span>
-          </div>
-          <div class="team">
-            <img src="${home.team.logo}" alt="${home.team.abbreviation}" />
-            ${home.team.displayName}<span class="score">${home.score}</span>
-          </div>
-        </div>
-      `;
-    }
-
-    setInterval(loadAvsGame, 10000);
-    window.onload = loadAvsGame;
-
+    // Console trigger
     window.avsgoal = () => triggerCelebration();
+
+    loadAvsGame();
+    setInterval(loadAvsGame, 60000);
   </script>
 </body>
 </html>
