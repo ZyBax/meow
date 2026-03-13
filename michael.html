@@ -16,34 +16,8 @@
       gtag('config', 'G-3MLX5P0FLD');
     </script>
 
-    <!-- Inline script specific to this page -->
-    <script>
-      window.onload = function() {
-        const pageUrl = window.location.href;
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              const { latitude, longitude } = position.coords;
-              // Calling logData from script.js (shared code)
-              logData(pageUrl, latitude, longitude);
-            },
-            (error) => {
-              console.error('Error getting location:', error);
-              // Call logData with null coordinates in case of error
-              logData(pageUrl, null, null);
-            }
-          );
-        } else {
-          console.error('Geolocation is not supported by this browser.');
-          logData(pageUrl, null, null);
-        }
-      };
-    </script>
-
   </head>
   <body>
-    <h1><strong>Thank you for answering Michael!</strong></h1>
-    <h2>If you are OK with it, then please accept location. If a popup asks you for precise or not, then you can choose not precise.</h2>
     <img src="michael.jpg" alt="Michael's Image">
   </body>
 </html>
